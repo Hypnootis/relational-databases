@@ -1,6 +1,8 @@
 # Relational Databases
 Tasks for a relational databases course in Lapland UAS, Machine learning and Data engineering programme.
 
+The tasks are done by documenting commands done inside the command line (Postgresql), in this case running Postgresql as a service inside WSL2 Debian.
+
 <ol>
   <li>Creating database, tables (8p)</li>
   <li>SQL (45p)</li>
