@@ -1,6 +1,8 @@
 # Relational Databases
 Tasks for a relational databases course in Lapland UAS, Machine learning and Data engineering programme, 2nd year.
 
+<a href="https://logonoid.com/postgresql-logo/" target="_blank"><img src="https://logonoid.com/images/thumbs/postgresql-logo.png"  alt="PostgreSQL Logo" /></a>
+
 The tasks are done by documenting commands done inside a database (Postgresql), which is ran inside WSL2 Debian.
 
 <ol>
