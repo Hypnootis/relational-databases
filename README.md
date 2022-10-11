@@ -16,6 +16,6 @@ The tasks are done by documenting commands done inside a database (Postgresql), 
     <li>Joins</li>
     <li>Views</li>
   </ul>
-  <li>Database design (14p)</li>
+  <li>Database design & implementation in python (14p)</li>
   <li>Managing users (8p)</li>
 </ol>
