@@ -11,7 +11,7 @@ def execute_commands(connection: psycopg2.connect, commands: list):
     cursor = connection.cursor()
 
     for command in commands:
-        cursor.execute(commands)
+        cursor.execute(command)
 
     connection.close()
 
@@ -38,6 +38,7 @@ def create_tables():
         password = password,
         port = port
     )
+    # TODO: The constraints throw an error, can't reference before constraint creation
     commands = ["""CREATE TABLE IF NOT EXISTS catalog (
         id SERIAL PRIMARY KEY,
         book_ID INT REFERENCES book(id),
