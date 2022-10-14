@@ -5,6 +5,7 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from database_config import username, password, host, port
+from populate_tables import test_data
 
 def execute_commands(connection: psycopg2.connect, commands: list):
     connection.autocommit = True
@@ -74,27 +75,38 @@ def create_tables():
         email VARCHAR(255),
         phone_number VARCHAR(14)
     )
-    """,
-    """
-    ALTER TABLE catalog
-    ADD CONSTRAINT fk_catalog_bookname FOREIGN KEY (book_name) REFERENCES book(book_name),
-    ADD CONSTRAINT fk_catalog_bookid FOREIGN KEY (book_id) REFERENCES book(id),
-    ADD CONSTRAINT fk_catalog_publisherid FOREIGN KEY (publisher_id) REFERENCES publisher(id)
-    """,
-    """
-    ALTER TABLE book
-    ADD CONSTRAINT fk_book_publisherid FOREIGN KEY (publisher_id) REFERENCES publisher(id)
-    """,
-    """
-    ALTER TABLE publisher
-    ADD CONSTRAINT fk_publisher_bookid FOREIGN KEY (book_id) REFERENCES book(id),
-    ADD CONSTRAINT fk_publisher_customerid FOREIGN KEY (customer_id) REFERENCES customer(id)
-    """,
-    """
-    ALTER TABLE loan
-    ADD CONSTRAINT fk_loan_bookid FOREIGN KEY (book_id) REFERENCES book(id),
-    ADD CONSTRAINT fk_loan_customerid FOREIGN KEY (customer_id) REFERENCES customer(id)
     """]
+
+    execute_commands(connection, commands)
+
+def add_constraints():
+    connection = psycopg2.connect(
+        host = host,
+        database = "library",
+        user = username,
+        password = password,
+        port = port
+    )
+    commands = ["""
+        ALTER TABLE catalog
+        ADD CONSTRAINT fk_catalog_bookname FOREIGN KEY (book_name) REFERENCES book(book_name),
+        ADD CONSTRAINT fk_catalog_bookid FOREIGN KEY (book_id) REFERENCES book(id),
+        ADD CONSTRAINT fk_catalog_publisherid FOREIGN KEY (publisher_id) REFERENCES publisher(id)
+        """,
+        """
+        ALTER TABLE book
+        ADD CONSTRAINT fk_book_publisherid FOREIGN KEY (publisher_id) REFERENCES publisher(id)
+        """,
+        """
+        ALTER TABLE publisher
+        ADD CONSTRAINT fk_publisher_bookid FOREIGN KEY (book_id) REFERENCES book(id),
+        ADD CONSTRAINT fk_publisher_customerid FOREIGN KEY (customer_id) REFERENCES customer(id)
+        """,
+        """
+        ALTER TABLE loan
+        ADD CONSTRAINT fk_loan_bookid FOREIGN KEY (book_id) REFERENCES book(id),
+        ADD CONSTRAINT fk_loan_customerid FOREIGN KEY (customer_id) REFERENCES customer(id)
+        """]
     execute_commands(connection, commands)
 
 def drop_database():
@@ -111,3 +123,5 @@ def drop_database():
 drop_database()
 create_database()
 create_tables()
+test_data()
+add_constraints()
