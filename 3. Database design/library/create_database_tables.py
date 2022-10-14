@@ -54,10 +54,9 @@ def create_tables():
     ) """,
     """CREATE TABLE IF NOT EXISTS publisher (
         id SERIAL PRIMARY KEY,
-        book_id INT,
-        customer_id INT,
-        loan_date DATE,
-        due_date DATE
+        address VARCHAR(255),
+        name VARCHAR(255),
+        phone_number VARCHAR(14)
     )
     """,
     """CREATE TABLE IF NOT EXISTS loan (
@@ -98,11 +97,6 @@ def add_constraints():
         ADD CONSTRAINT fk_book_publisherid FOREIGN KEY (publisher_id) REFERENCES publisher(id)
         """,
         """
-        ALTER TABLE publisher
-        ADD CONSTRAINT fk_publisher_bookid FOREIGN KEY (book_id) REFERENCES book(id),
-        ADD CONSTRAINT fk_publisher_customerid FOREIGN KEY (customer_id) REFERENCES customer(id)
-        """,
-        """
         ALTER TABLE loan
         ADD CONSTRAINT fk_loan_bookid FOREIGN KEY (book_id) REFERENCES book(id),
         ADD CONSTRAINT fk_loan_customerid FOREIGN KEY (customer_id) REFERENCES customer(id)
@@ -118,10 +112,10 @@ def drop_database():
         port = port
     )
     connection.autocommit = True
-    connection.cursor().execute("DROP DATABASE library")
+    connection.cursor().execute("DROP DATABASE IF EXISTS library")
 
 drop_database()
 create_database()
 create_tables()
-test_data()
+execute_commands(psycopg2.connect(host=host, database="library", user=username, password=password, port=port), test_data())
 add_constraints()
