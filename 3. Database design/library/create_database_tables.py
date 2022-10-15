@@ -1,11 +1,13 @@
 import psycopg2
 
-# To resolve the path for the config file
+# Resolve the path for the config file
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from database_config import username, password, host, port
 from populate_tables import test_data
+
+DBNAME = "library"
 
 def execute_commands(connection: psycopg2.connect, commands: list):
     connection.autocommit = True
@@ -24,7 +26,7 @@ def create_database():
         password = password,
         port = port
     )
-    commands = ["CREATE DATABASE library"]
+    commands = [f"CREATE DATABASE {DBNAME}"]
 
     try:
         execute_commands(connection, commands)
@@ -34,12 +36,12 @@ def create_database():
 def create_tables():
     connection = psycopg2.connect(
         host = host,
-        database = "library",
+        database = DBNAME,
         user = username,
         password = password,
         port = port
     )
-    # TODO: The constraints throw an error, can't reference before constraint creation
+
     commands = ["""CREATE TABLE IF NOT EXISTS catalog (
         id SERIAL PRIMARY KEY,
         book_id INT,
@@ -81,7 +83,7 @@ def create_tables():
 def add_constraints():
     connection = psycopg2.connect(
         host = host,
-        database = "library",
+        database = DBNAME,
         user = username,
         password = password,
         port = port
@@ -112,10 +114,10 @@ def drop_database():
         port = port
     )
     connection.autocommit = True
-    connection.cursor().execute("DROP DATABASE IF EXISTS library")
+    connection.cursor().execute(f"DROP DATABASE IF EXISTS {DBNAME}")
 
 drop_database()
 create_database()
 create_tables()
-execute_commands(psycopg2.connect(host=host, database="library", user=username, password=password, port=port), test_data())
+execute_commands(psycopg2.connect(host=host, database=DBNAME, user=username, password=password, port=port), test_data)
 add_constraints()

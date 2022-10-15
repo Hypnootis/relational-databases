@@ -1,8 +1,5 @@
-
-
-def test_data():
-    # All the phone numbers are generated with a random number generator, and the addresses are of public businesses / not individual addresses
-    commands = ["""INSERT INTO publisher (address, name, phone_number)
+# All the phone numbers are generated with a random number generator, and the addresses are of public businesses / not individual addresses
+test_data = ["""INSERT INTO publisher (address, name, phone_number)
     VALUES ('Kuntotie 5 96400 Rovaniemi Finland', 'Reindeer Publishing', '9648987385'),
     ('McFarlane St Cummins SA 5631 Australia', 'Kangaroo & co', '8227270461'),
     ('Kenraalintie 9 42300 Jämsänkoski Finland', 'Mikan K-Market ja kirjapaino', '4784923775')
@@ -31,7 +28,5 @@ def test_data():
     (1, 2, '2022-06-06', '2022-06-30'),
     (1, 1, '2001-01-01', '2022-10-14')
     """]
-
-    return commands
 
 
